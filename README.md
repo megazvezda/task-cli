@@ -1,10 +1,11 @@
 ## Basic Task-Tracker CLI
 
-Currenty works only by providing commands in main.go
+Currenty works in the terminal.
 
 Functions include:
-- Add("Task Name") to add the task to the list
-- Delete("ID") to delete the task by its ID
-- Toggle("ID") to switch between not completed and completed, assigns a date and time of completion
+- go run . add "task name"
+- go run . list
+- go run . toggle <id>
+- go run . delete <id>
 
-"Todos" is a slice of tasks, acting as a list
+Every method saves and loads the data in and from the "storage.json" file.

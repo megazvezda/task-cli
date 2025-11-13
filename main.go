@@ -25,9 +25,6 @@ func main() {
 	case "add":
 		desc := strings.Join(args[1:], "")
 		todos.Load()
-		if *completed {
-
-		}
 		todos.Add(desc)
 		todos.Save("storage.json") // testing saving
 
