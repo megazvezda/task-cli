@@ -87,6 +87,10 @@ func (todos *Todos) Toggle(index int) error {
 	}
 	t[idx].IsCompleted = !completed
 
+	if t[idx].IsCompleted != true {
+		t[idx].CompletedAt = nil
+	}
+
 	return nil
 }
 
@@ -99,4 +103,14 @@ func (todos *Todos) FindByID(id int) (int, error) {
 		}
 	}
 	return -1, errors.New("ID not found")
+}
+
+func (todos *Todos) List() {
+	for _, t := range *todos {
+		status := "❌"
+		if t.IsCompleted {
+			status = "✅"
+		}
+		fmt.Printf("[%d] %s - %s\n", t.ID, status, t.Description)
+	}
 }

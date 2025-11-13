@@ -1,28 +1,53 @@
 package main
 
-import "fmt"
+import (
+	"flag"
+	"fmt"
+	"os"
+	"strconv"
+	"strings"
+)
 
 /* temporary testing until the rework */
 func main() {
+	flag.Parse()
 	todos := Todos{}
-	todos.Add("This is ID 1")
-	todos.Add("This is ID 2")
-	todos.Add("Should be ID 3")
-	fmt.Printf("%+v\n\n", todos)
+	args := os.Args[1:] // skip program name
 
-	fmt.Println("Deleting ID1")
-	todos.Delete(1)
-	fmt.Printf("%+v\n\n", todos)
+	if len(args) == 0 {
+		fmt.Println("Usage: todo [add|list|delete|toggle]")
+		return
+	}
 
-	todos.Delete(2)
-	fmt.Println("Now Deleting ID2")
-	fmt.Printf("%+v\n\n", todos)
+	command := args[0]
 
-	todos.Toggle(3)
-	fmt.Println("Toggling ID3")
-	fmt.Printf("%+v\n", todos)
+	switch command {
+	case "add":
+		desc := strings.Join(args[1:], "")
+		todos.Load()
+		if *completed {
 
-	fmt.Println("Adding the last task.")
-	todos.Add("should be ID 4")
-	fmt.Printf("%+v", todos)
+		}
+		todos.Add(desc)
+		todos.Save("storage.json") // testing saving
+
+	case "list":
+		todos.Load()
+		todos.List()
+
+	case "delete":
+		id, _ := strconv.Atoi(args[1])
+		todos.Load()
+		todos.Delete(id)
+		todos.Save("storage.json") // testing saving
+
+	case "toggle":
+		id, _ := strconv.Atoi(args[1])
+		todos.Load()
+		todos.Toggle(id)
+		todos.Save("storage.json") // testing saving
+
+	default:
+		fmt.Println("Unknown command")
+	}
 }
